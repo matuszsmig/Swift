@@ -52,6 +52,12 @@ docker-compose up --build
 
 ## Running Tests
 To run all tests from the terminal, use the following command:
-
 ```sh
 ./gradlew test
+```
+
+## API Documentation
+The API documentation is available at:
+```
+http://localhost:8080/swagger-ui.html
+```
