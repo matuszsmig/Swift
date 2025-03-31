@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: swift_db
+    image: postgres:16.8
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_DB: Swift
+    ports:
+      - "25432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+
+  app:
+    container_name: swift_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/Swift
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: db_password
+
+volumes:
+  postgres_data:
